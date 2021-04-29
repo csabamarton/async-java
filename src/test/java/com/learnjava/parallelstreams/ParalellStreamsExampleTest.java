@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import static com.learnjava.util.CommonUtil.*;
+import static com.learnjava.util.LoggerUtil.log;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ParalellStreamsExampleTest {
@@ -45,5 +46,10 @@ class ParalellStreamsExampleTest {
 
         paralellStreamsExample.setStreamProcess(nameStream, isParallel);
         assertEquals(nameStream.isParallel(), isParallel);
+    }
+
+    @Test
+    void stringToLovercase() {
+        log(paralellStreamsExample.string_toLowerCase(names).toString());
     }
 }

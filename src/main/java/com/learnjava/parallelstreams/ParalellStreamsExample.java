@@ -3,6 +3,7 @@ package com.learnjava.parallelstreams;
 import com.learnjava.util.DataSet;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -16,6 +17,12 @@ public class ParalellStreamsExample {
 
         setStreamProcess(nameStream, isParallel);
         return transformStream(nameStream);
+    }
+
+    public List<String> string_toLowerCase(List<String> names) {
+        return names.stream()
+                .map(name -> name.toLowerCase(Locale.ROOT))
+                .collect(Collectors.toList());
     }
 
     public void setStreamProcess(Stream<String> stream, boolean isParallel) {

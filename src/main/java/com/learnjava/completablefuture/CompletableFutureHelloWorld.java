@@ -20,6 +20,11 @@ public class CompletableFutureHelloWorld {
                 .thenApply(String::toUpperCase);
     }
 
+    public CompletableFuture<String> helloWorld_withSize(String input) {
+        return CompletableFuture.supplyAsync(()-> input)
+                .thenApply((s) -> s.length() + " - " + s);
+    }
+
     public static void main(String[] args) {
         CompletableFutureHelloWorld completableFutureHelloWorld = new CompletableFutureHelloWorld(new HelloWorldService());
 

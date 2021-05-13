@@ -42,4 +42,11 @@ class CompletableFutureHelloWorldTest {
        .join();
     }
 
+    @Test
+    void helloworld_muiltiple_asyn_calls() {
+        String helloworld = completableFutureHW.helloworld_muiltiple_asyn_calls();
+
+        assertEquals("HELLO WORLD!", helloworld);
+    }
+
 }

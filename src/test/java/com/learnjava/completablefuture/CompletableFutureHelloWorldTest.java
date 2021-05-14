@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
+import static com.learnjava.util.CommonUtil.startTimer;
+import static com.learnjava.util.CommonUtil.timeTaken;
 import static org.junit.jupiter.api.Assertions.*;
 
 class CompletableFutureHelloWorldTest {
@@ -49,4 +51,30 @@ class CompletableFutureHelloWorldTest {
         assertEquals("HELLO WORLD!", helloworld);
     }
 
+    @Test
+    void helloworld_combine_3_asyn_calls() {
+        String helloworld = completableFutureHW.helloworld_combine_3_asyn_calls();
+
+        assertEquals("HELLO WORLD! HI COMPLETABLEFUTURE!", helloworld);
+    }
+
+    @Test
+    void helloWorld_4_async_calls() {
+        String helloworld = completableFutureHW.helloWorld_4_async_calls();
+
+        assertEquals("HELLO WORLD! HI COMPLETABLEFUTURE! BYE!", helloworld);
+    }
+
+    @Test
+    void helloWorld_compose_async_calls() {
+        startTimer();
+
+        CompletableFuture<String> completableFuture = completableFutureHW.helloWorld_thenCompose();
+        completableFuture.thenAccept(
+                s -> assertEquals("HELLO WORLD!", s)
+        )
+        .join();
+
+        timeTaken();
+    }
 }

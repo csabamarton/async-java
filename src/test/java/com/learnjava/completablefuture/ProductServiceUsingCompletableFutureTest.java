@@ -1,6 +1,7 @@
 package com.learnjava.completablefuture;
 
 import com.learnjava.domain.Product;
+import com.learnjava.service.InventoryService;
 import com.learnjava.service.ProductInfoService;
 import com.learnjava.service.ReviewService;
 import org.junit.jupiter.api.BeforeAll;
@@ -18,12 +19,14 @@ class ProductServiceUsingCompletableFutureTest {
     ProductInfoService productInfoService;
     ReviewService reviewService;
     ProductServiceUsingCompletableFuture productService;
+    InventoryService inventoryService;
 
     @BeforeEach
     void init() {
         productInfoService = new ProductInfoService();
         reviewService = new ReviewService();
-        productService = new ProductServiceUsingCompletableFuture(productInfoService, reviewService);
+        inventoryService = new InventoryService();
+        productService = new ProductServiceUsingCompletableFuture(productInfoService, reviewService, inventoryService);
     }
 
     @Test
@@ -49,5 +52,18 @@ class ProductServiceUsingCompletableFutureTest {
                 .join();
 
         timeTaken();
+    }
+
+    @Test
+    void retrieveProductDetailsWithInventory() {
+        String productId = "ABC123";
+        Product product = this.productService.retrieveProductDetailsWithInventory(productId);
+        assertNotNull(product);
+        assertTrue(product.getProductInfo().getProductOptions().size()>0);
+        assertNotNull(product.getReview());
+        product.getProductInfo().getProductOptions().forEach(productOption -> {
+            assertNotNull(productOption.getInventory());
+            assertTrue(productOption.getInventory().getCount()>0);
+        });
     }
 }

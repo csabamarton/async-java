@@ -29,4 +29,15 @@ class CompletableFutureHelloWorldExceptionTest {
         assertEquals(" WORLD! HI COMPLETABLEFUTURE!", result);
 
     }
+
+    @Test
+    void helloworld_combine_3_asyn_calls_exceptionally() {
+        when(helloWorldService.hello()).thenCallRealMethod();
+        when(helloWorldService.world()).thenCallRealMethod();
+
+        String result = cfHelloWorldException.helloworld_combine_3_asyn_calls_exceptionally();
+
+        assertEquals("HELLO WORLD! HI COMPLETABLEFUTURE!", result);
+
+    }
 }

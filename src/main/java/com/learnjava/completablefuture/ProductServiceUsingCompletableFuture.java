@@ -72,8 +72,11 @@ public class ProductServiceUsingCompletableFuture {
                             .build();
                 });
 
-        Product product = cfProductInfo.thenCombine(cfReview, (productInfo, review) ->
-                new Product(productId, productInfo, review))
+        Product product = cfProductInfo
+                .thenCombine(cfReview, (productInfo, review) -> new Product(productId, productInfo, review))
+                .whenComplete((product1, ex) -> {
+                    log("Inside whenComplete method: " + product1 + " and the exception is: " + ex.getMessage());
+                })
                 .join();
 
 
@@ -97,6 +100,11 @@ public class ProductServiceUsingCompletableFuture {
         List<CompletableFuture<ProductOption>> productOptionFutureList = productInfo.getProductOptions()
                 .stream()
                 .map(productOption -> CompletableFuture.supplyAsync(() -> inventoryService.addInventory(productOption))
+                        .exceptionally((ex -> {
+                            log("inventoryService.addInventory method failed with exception: " + ex.getMessage());
+                            return Inventory.builder()
+                                    .count(1).build();
+                        }))
                         .thenApply((inventory -> {
                             productOption.setInventory(inventory);
                             return productOption;
